@@ -2,9 +2,14 @@
 /*eslint-env jquery*/
 
 const app = (function(){
-  function generateCell(index){ 
+  let index = 0; 
+
+  function generateCell(){ 
+    index++;  
+    
+    console.log(index);
     return `  
-    <div class="cell" id="${index}">
+    <div class="cell" id="${index-10}">
         <p>&nbsp;</p>
     </div>`; 
   }
@@ -30,23 +35,36 @@ const app = (function(){
 
   function render(){
     const gameBoardString = generateBoard(); 
-    // console.log(gameBoardString); 
     $('.board').html(gameBoardString); 
   }
 
   function handleOnGameStartClick(){
+    $('#new-game').on('click', function(){ 
+      console.log('clicked start button');
+    }); 
     render(); 
   }
-  function handleOnCellClick(){}
+  function handleOnCellClick(){
+    $('.game').on('click', '.cell',  function(event){ 
+
+      const val = $(event.currentTarget).attr('id'); 
+      console.log(val);
+      //console.log('clicked cell');
+    }); 
+  }
 
   function bindEventListeners(){
-    handleOnCellClick(); 
     handleOnGameStartClick(); 
+    handleOnCellClick(); 
   }
 
   return {render, bindEventListeners}; 
 }()); 
-app.render(); 
+
+$(document).ready(function(){ 
+  app.bindEventListeners(); 
+  app.render(); 
+}); 
 
 // State modification functions
 
